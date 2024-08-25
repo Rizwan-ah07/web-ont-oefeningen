@@ -126,31 +126,14 @@ app.get("/", (req, res) => {
     res.render('articles', {articles, topics})
 })
 
-app.get("/politics", (req, res) => {
-    const filteredArticles = articles.filter(article => article.topic === "politics");
-    res.render("articles", {articles: filteredArticles, topics});
+app.get("/:topic", (req, res) => {
+    const topic = req.params.topic;
+    const filteredArticles = articles.filter((articles) => {
+        return articles.topic === topic;
+    })
+    res.render("articles", {articles: filteredArticles, topics})
 })
 
-app.get("/economy", (req, res) => {
-    const filteredArticles = articles.filter(article => article.topic === "sports");
-    res.render("articles", {articles: filteredArticles, topics});
-})
-
-app.get("/sports", (req, res) => {
-    const filteredArticles = articles.filter(article => article.topic === "sports");
-    res.render("articles", {articles: filteredArticles, topics});
-})
-
-app.get("/entertainment", (req, res) => {
-    const filteredArticles = articles.filter(article => article.topic === "entertainment");
-    res.render("articles", {articles: filteredArticles, topics});
-})
-
-
-app.get("/technology", (req, res) => {
-    const filteredArticles = articles.filter(article => article.topic === "technology");
-    res.render("articles", {articles: filteredArticles, topics});
-})
 
 app.use((req, res, next) => {
     res.status(404).render("error", { message: "Page not found" });
