@@ -122,6 +122,23 @@ const articles: NewsArticle[] = [
     }
 ];
 
+app.get('/search', (req, res) =>{
+    if (typeof req.query.q === "string") {
+        if (req.query.q === "") {
+            res.render('search', {articles: [], topics, query: ""});
+            return
+        }
+        let query = req.query.q.toLowerCase();
+        const filteredArticles = articles.filter((article) => {
+            return article.title.toLowerCase().includes(query) || article.content.toLowerCase().includes(query);
+        })
+        res.render("search", {articles: filteredArticles, topics, query: query})
+    }
+    else{
+        res.render("search", {articles: [], topics, query: ""})
+    }
+})
+
 app.get("/", (req, res) => {
     res.render('articles', {articles, topics})
 })
